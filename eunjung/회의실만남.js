@@ -34,25 +34,19 @@ const meet_count = (enter, exit) => {
   let target = q_exit.dequeue();
 
   for (i = 1; i < exit.length; i++) {
-    if (enter[i] !== target) {
+     //회의실에 들어감
       for (let person of room) {
         meet_count[person] += 1;
       }
       meet_count[enter[i]] += room.length;
       room.push(enter[i]);
-    } else {
-      //같으면
-      for (let person of room) {
-        meet_count[person] += 1;
-      }
-      meet_count[enter[i]] += room.length;
-      room.push(enter[i]);
-
+    if (enter[i] === target) {
+      //제일 최근에 들어간 사람이 나올 수 있으면 나옴
       room.pop();
       target = q_exit.dequeue(); //1
 
       while (room.length > 0) {
-        //다음 target이 이미 회의실에 들어갔는지 확인하고 있으면 pop
+        //다음 target(나올사람)이 이미 회의실에 들어가있으면 나옴
         if (room.includes(target)) {
           room = room.filter((item) => item !== target);
           target = q_exit.dequeue();
